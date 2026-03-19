@@ -1,0 +1,3 @@
+# Add API keys here
+GROQ_API_KEY = "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"
+# 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
