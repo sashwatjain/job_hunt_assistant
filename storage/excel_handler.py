@@ -36,7 +36,8 @@ class ExcelHandler:
                 "score": job["score"],
                 "decision": job["decision"],
                 "link": job["link"],
-                "resume_path": job["pdf_path"]
+                "resume_path": job["resume_path"],
+                "hiring_message" : job["hiring_message"]
             })
 
         df = pd.DataFrame(data)

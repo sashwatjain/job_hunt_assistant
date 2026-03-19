@@ -28,33 +28,27 @@ IMPORTANT:
 - Avoid buzzwords
 - Tailor to THIS job specifically
 
-OUTPUT STRICTLY:
+OUTPUT STRICTLY IN THIS FORMAT:
 
-WHY_I_AM_GOOD_FIT:
-<text>
+WHY_I_AM_GOOD_FIT: <text>
 """
 
         response = self.client.generate(prompt)
-        print("Resume LLM Response:\n", response)
+        # print("Resume LLM Response:\n", response)
 
         return self.parse_sections(response)
 
     def parse_sections(self, text):
-        summary = ""
         hiring = ""
-
-        current = None
 
         for line in text.split("\n"):
             line = line.strip()
 
             if line.upper().startswith("WHY_I_AM_GOOD_FIT"):
-                current = "hiring"
-                continue
-
-
-            elif current == "hiring":
-                hiring += " " + line
+                # Extract content after colon
+                parts = line.split(":", 1)
+                if len(parts) > 1:
+                    hiring += parts[1].strip()
 
         return hiring.strip()
     
