@@ -2,21 +2,18 @@ from playwright.sync_api import sync_playwright
 from models.job import Job
 import time
 import uuid
+from config.config import ROLES, LOCATIONS
 
 
 class LinkedInScraper:
 
     def __init__(self):
-        self.roles = [
-            "AI Engineer",
-            "Machine Learning Engineer",
-            "AI Developer"
-        ]
+        self.roles = ROLES
 
-        self.locations = ["India"]
+        self.locations = LOCATIONS
 
         self.max_jobs_per_page = 20
-        self.pagination_steps = [0, 25, 50]  # 🔥 load more jobs
+        self.pagination_steps = [0]  # 🔥 load more jobs
 
     def fetch_jobs(self):
         all_jobs = []
@@ -45,7 +42,7 @@ class LinkedInScraper:
                         print("\n" + "="*60)
                         print(f"🔍 {role} | {location} | start={start}")
 
-                        url = f"https://www.linkedin.com/jobs/search/?keywords={role}&location={location}&start={start}"
+                        url = f"https://www.linkedin.com/jobs/search/?keywords={role}&location={location}&f_TPR=r86400&start={start}"
                         page.goto(url)
 
                         time.sleep(6)
@@ -124,31 +121,55 @@ class LinkedInScraper:
     # 🔍 Parse job
     def parse_job(self, card, page):
         try:
-            text = card.inner_text().strip()
+            # ---------------------------
+            # TITLE
+            # ---------------------------
+            title_el = card.query_selector("a span[aria-hidden='true']")
+            title = title_el.inner_text().strip() if title_el else "N/A"
 
-            lines = [l.strip() for l in text.split("\n") if l.strip()]
+            # ---------------------------
+            # COMPANY (PRIMARY + FALLBACK)
+            # ---------------------------
+            company = "N/A"
 
-            if len(lines) < 3:
-                return None
+            company_el = card.query_selector(".artdeco-entity-lockup__subtitle span")
+            if company_el:
+                company = company_el.inner_text().strip()
+            else:
+                company_el = card.query_selector(".artdeco-entity-lockup__subtitle")
+                if company_el:
+                    company = company_el.inner_text().strip()
 
-            title = lines[0]
-            company = lines[1]
-            location = lines[2]
+            # ---------------------------
+            # LOCATION (SPAN BASED - MOST RELIABLE)
+            # ---------------------------
+            location = "N/A"
+            spans = card.query_selector_all("span")
 
-            # click job
+            if len(spans) >= 4:
+                location = spans[3].inner_text().strip()
+
+            # ---------------------------
+            # CLICK JOB
+            # ---------------------------
             try:
                 card.click()
                 time.sleep(2)
             except:
                 pass
 
-            # extract description
+            # ---------------------------
+            # DESCRIPTION
+            # ---------------------------
             description = ""
             desc_el = page.query_selector(".jobs-description__content")
 
             if desc_el:
                 description = desc_el.inner_text()
 
+            # ---------------------------
+            # RETURN OBJECT
+            # ---------------------------
             return Job(
                 job_id=str(uuid.uuid4()),
                 title=title,
@@ -161,7 +182,7 @@ class LinkedInScraper:
         except Exception as e:
             print("❌ parse_job failed:", e)
             return None
-
+        
     # 🧹 remove duplicates
     def remove_duplicates(self, jobs):
         seen = set()

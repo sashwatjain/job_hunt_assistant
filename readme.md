@@ -2,6 +2,8 @@ pip install pandas openpyxl
 pip install playwright
 playwright install
 install request
+pip install pdflatex
+
 
 ollama --version
 ollama run mistral

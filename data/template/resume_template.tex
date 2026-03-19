@@ -1,0 +1,163 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage{xcolor}
+\usepackage{ragged2e}
+\usepackage[empty]{fullpage}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{fontawesome5}
+\usepackage[hidelinks]{hyperref}
+\usepackage[most]{tcolorbox}
+
+\definecolor{darkblue}{RGB}{0,0,139}
+
+\geometry{left=1.2cm, top=0.8cm, right=1.2cm, bottom=1cm}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-6pt}]
+
+\newcommand{\resumeItem}[1]{\item \small{#1}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*,itemsep=1mm]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=*,itemsep=0.5mm]}
+\newcommand{\resumeItemListEnd}{\end{itemize}}
+
+\begin{document}
+
+%----------HEADER----------
+\begin{center}
+    {\Huge \textbf{Sashwat Jain}}\\
+    \vspace{2mm}
+    \small AI/ML Engineer | GenAI | RAG | LLM Applications\\
+    \vspace{1mm}
+    +91 8989440441 | \href{mailto:sashwatkjain@gmail.com}{sashwatkjain@gmail.com} \\
+    \href{https://www.linkedin.com/in/sashwatjain/}{LinkedIn} | 
+    \href{https://github.com/sashwatjain}{GitHub} \\
+    Pune, India
+\end{center}
+
+%----------ABOUT ME----------
+\section{To hiring manager}
+\small{
+__TOHIRINGMANAGER__
+}
+
+%----------ABOUT ME----------
+\section{Summary}
+\small{
+AI/ML Engineer with 3 years of experience building production-grade AI systems and GenAI applications. Specialized in LLM-powered solutions including RAG pipelines, document intelligence systems, and chatbot architectures. Experienced in integrating LLaMA, and Mistral models with scalable backend systems using FastAPI and cloud-native deployments. Strong foundation in prompt engineering, vector search, and AI system design.
+}
+
+%----------EXPERIENCE----------
+\section{Experience}
+\resumeSubHeadingListStart
+
+\item
+\textbf{Dassault Systèmes} \hfill Pune, India \\
+\textit{Specialist Software Engineer} \hfill Mar 2025 – Present
+\resumeItemListStart
+\resumeItem{Designed and enforced AI guardrails for LLM agents to enhance user safety, prevent misuse, and ensure secure, reliable outputs.}
+\resumeItem{Designed LLM-based document intelligence workflows using Mistral AI and LLaMA models with MCP servers for tool calling.}
+\resumeItem{Built RAG-style pipelines for extracting structured data from documents with improved contextual accuracy.}
+\resumeItem{Migrated OCR services from on-prem to cloud (Outscale) with Docker and CI/CD pipelines.}
+\resumeItem{Integrated AI pipelines with backend systems using FastAPI and microservices architecture.}
+\resumeItem{Scaled services to process 150K+ documents/month across 10+ internal clients.}
+\resumeItemListEnd
+
+\item
+\textbf{Dassault Systèmes} \hfill Pune, India \\
+\textit{Associate Software Engineer} \hfill Jul 2023 – Mar 2025
+\resumeItemListStart
+\resumeItem{Built end-to-end Image-to-Text service using Tesseract, Python, and FastAPI.}
+\resumeItem{Created Digital Wallet POC using LLaMA-2 for extracting structured information from receipts.}
+\resumeItem{Designed modular OCR pipelines with preprocessing, parsing, and extraction stages.}
+\resumeItem{Developed production-grade REST APIs with high reliability and performance.}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%----------PROJECTS----------
+\section{Projects}
+\resumeSubHeadingListStart
+
+\item
+\textbf{LLM-based Translation Service}
+\resumeItemListStart
+\resumeItem{Built a translation service using OpenAI APIs supporting multi-language text transformation.}
+\resumeItem{Designed prompt engineering strategies for accurate and context-aware outputs.}
+\resumeItem{Exposed scalable APIs using FastAPI for real-time usage.}
+\resumeItemListEnd
+
+\item
+\textbf{RAG-based Chatbot with Data Ingestion Pipeline}
+\resumeItemListStart
+\resumeItem{Developed a Retrieval-Augmented Generation (RAG) pipeline with document ingestion and embeddings.}
+\resumeItem{Implemented semantic search using vector database (FAISS).}
+\resumeItem{Integrated LLM responses with contextual grounding to reduce hallucination.}
+\resumeItemListEnd
+
+\item
+\textbf{University Assistant Chatbot}
+\resumeItemListStart
+\resumeItem{Built chatbot using OpenAI + LangChain for answering university-related queries.}
+\resumeItem{Implemented conversation memory and context-aware responses.}
+\resumeItem{Designed modular pipeline for ingestion, retrieval, and response generation.}
+\resumeItemListEnd
+
+\item
+\textbf{Habit Arena — Gamified Habit Tracking App}
+\resumeItemListStart
+\resumeItem{Developed full-stack app using FastAPI, SQLModel, and JavaScript.}
+\resumeItem{Implemented authentication, leaderboard system, and gamification logic.}
+\resumeItem{Deployed using Render and Netlify.}
+\resumeItemListEnd
+
+\item
+\textbf{Drowsiness Detection using YOLO}
+\resumeItemListStart
+\resumeItem{Developed driver drowsiness detection model using YOLO and PyTorch.}
+\resumeItem{Implemented custom object detection pipeline.}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%----------SKILLS----------
+\section{Skills}
+\resumeSubHeadingListStart
+
+\resumeItem{\textbf{Programming:} Python, Java, JavaScript}
+\resumeItem{\textbf{AI/ML \& GenAI:} LLMs (OpenAI, LLaMA, Mistral), RAG, Prompt Engineering, Embeddings, Vector DB (FAISS), OCR}
+\resumeItem{\textbf{Frameworks:} LangChain, FastAPI, REST APIs, Microservices}
+\resumeItem{\textbf{Cloud \& MLOps:} Docker, CI/CD, Model Deployment, Monitoring}
+\resumeItem{\textbf{Libraries:} PyTorch (basic), scikit-learn (basic)}
+
+\resumeSubHeadingListEnd
+
+%----------EDUCATION----------
+\section{Education}
+\resumeSubHeadingListStart
+
+\item
+\textbf{VNIT Nagpur} \hfill Nagpur, India \\
+B.Tech in Mechanical Engineering \hfill 2019 – 2023 \\
+GPA: 8.2/10
+
+\resumeSubHeadingListEnd
+
+%----------ADDITIONAL----------
+\section{Additional Information}
+\small{
+\textbf{Interests:} Filmmaking, Video Editing, Sketching, Fitness, Spirituality
+}
+
+\end{document}

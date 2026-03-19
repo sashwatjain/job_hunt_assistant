@@ -1,14 +1,11 @@
-
-AI/ML Engineer with 3 years of experience building production-grade AI systems and GenAI applications. Specialized in
+I am AI/ML Engineer with 3 years of experience building production-grade AI systems and GenAI applications. Specialized in
 LLM-powered solutions including RAG pipelines, document intelligence systems, and chatbot architectures. Experienced
 in integrating LLaMA, and Mistral models with scalable backend systems using FastAPI and cloud-native deployments.
 Strong foundation in prompt engineering, vector search, and AI system design.
-Experience 3 years
-
+Experience 3 years, i am looking for job specific to these fileds.
 Skills
 • Programming: Python, Java, JavaScript
-• AI/ML & GenAI: LLMs (OpenAI, LLaMA, Mistral), RAG, Prompt Engineering, Embeddings, Vector DB (FAISS),Cloud, Outscale, MCP, LangChain, Lnaggraph, Guradrails
-OCR
+• AI/ML & GenAI: LLMs (OpenAI, LLaMA, Mistral), RAG, Prompt Engineering, Embeddings, Vector DB (FAISS),Cloud, Outscale, MCP, LangChain, Lnaggraph, Guradrails, OCR
 • Frameworks: LangChain, FastAPI, REST APIs, Microservices
 • Cloud & MLOps: Docker, CI/CD, Model Deployment, Monitoring
 • Libraries: PyTorch (basic), scikit-learn (basic)

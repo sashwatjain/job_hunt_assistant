@@ -2,94 +2,126 @@ from playwright.sync_api import sync_playwright
 import time
 
 
-def analyze_real_search_ui():
+def debug_job_card(card, index):
+    print("\n" + "=" * 100)
+    print(f"🔎 DEBUGGING JOB CARD #{index}")
+    print("=" * 100)
 
+    try:
+        # -----------------------------
+        # 1. FULL TEXT
+        # -----------------------------
+        print("\n📄 FULL INNER TEXT:\n")
+        print(card.inner_text())
+
+        # -----------------------------
+        # 2. HTML STRUCTURE
+        # -----------------------------
+        print("\n🌐 INNER HTML (first 2000 chars):\n")
+        html = card.inner_html()
+        print(html[:2000])
+
+        # -----------------------------
+        # 3. TRY COMMON SELECTORS
+        # -----------------------------
+        print("\n🎯 TESTING SELECTORS:\n")
+
+        selectors = {
+            "TITLE (a span)": "a span[aria-hidden='true']",
+            "TITLE ALT": ".job-card-list__title",
+            "COMPANY 1": ".job-card-container__company-name",
+            "COMPANY 2": ".artdeco-entity-lockup__subtitle span",
+            "COMPANY 3": ".artdeco-entity-lockup__subtitle",
+            "COMPANY 4": "span.t-14.t-normal",
+            "LOCATION": ".job-card-container__metadata-item",
+        }
+
+        for name, selector in selectors.items():
+            try:
+                el = card.query_selector(selector)
+                if el:
+                    print(f"✅ {name}: {el.inner_text().strip()}")
+                else:
+                    print(f"❌ {name}: NOT FOUND")
+            except Exception as e:
+                print(f"⚠️ {name}: ERROR -> {e}")
+
+        # -----------------------------
+        # 4. PRINT ALL SPANS (IMPORTANT)
+        # -----------------------------
+        print("\n🧠 ALL SPANS (first 20):\n")
+
+        spans = card.query_selector_all("span")
+        for i, s in enumerate(spans[:20]):
+            try:
+                txt = s.inner_text().strip()
+                if txt:
+                    print(f"{i}: {txt}")
+            except:
+                pass
+
+        # -----------------------------
+        # 5. PRINT ALL LINKS (sometimes company inside <a>)
+        # -----------------------------
+        print("\n🔗 ALL LINKS:\n")
+
+        links = card.query_selector_all("a")
+        for i, a in enumerate(links[:10]):
+            try:
+                txt = a.inner_text().strip()
+                href = a.get_attribute("href")
+                print(f"{i}: TEXT={txt} | LINK={href}")
+            except:
+                pass
+
+    except Exception as e:
+        print("❌ DEBUG FAILED:", e)
+
+
+def run_debug():
     with sync_playwright() as p:
+        print("🚀 Connecting to Chrome...")
+
         browser = p.chromium.connect_over_cdp("http://localhost:9222")
         context = browser.contexts[0]
 
-        # get correct tab
+        # Find LinkedIn page
         page = None
         for p_ in context.pages:
-            if "linkedin.com" in p_.url:
+            if "linkedin.com/jobs" in p_.url:
                 page = p_
                 break
 
         if not page:
-            page = context.new_page()
+            print("❌ No LinkedIn jobs tab found.")
+            return
 
-        print("✅ Connected to Chrome")
+        print("✅ Connected to LinkedIn tab")
 
-        # 🔥 FORCE SEARCH PAGE (IMPORTANT)
-        url = "https://www.linkedin.com/jobs/search/?keywords=AI%20Engineer&location=India"
-        print("🌐 Opening:", url)
+        # Wait for jobs to load
+        time.sleep(5)
 
-        page.goto(url)
-        time.sleep(10)  # VERY IMPORTANT
-
-        print("\n📍 Current URL:", page.url)
-
-        # 🔥 SCROLL (to trigger lazy load)
+        # Scroll a bit (important)
+        print("🔽 Scrolling...")
         for _ in range(5):
-            page.mouse.wheel(0, 3000)
+            page.mouse.wheel(0, 2000)
             time.sleep(2)
 
-        print("\n" + "="*80)
-        print("🔍 ANALYZING STRUCTURE...\n")
+        # Get job cards
+        job_cards = page.query_selector_all(".scaffold-layout__list-item")
 
-        # 🔹 Find ALL ULs (job list containers)
-        uls = page.query_selector_all("ul")
-        print(f"Total ULs: {len(uls)}")
+        print(f"\n📦 Found {len(job_cards)} job cards")
 
-        for i, ul in enumerate(uls[:10]):
-            try:
-                items = ul.query_selector_all("li")
-                text = ul.inner_text()[:200]
+        if not job_cards:
+            print("❌ No jobs found. Try changing page or scrolling more.")
+            return
 
-                print(f"\n--- UL {i+1} ---")
-                print(f"Items: {len(items)}")
-                print(f"Text: {text}")
+        # Debug first 3 cards only
+        for i, card in enumerate(job_cards[:3]):
+            debug_job_card(card, i)
 
-            except:
-                pass
-
-        # 🔹 Detect job cards (IMPORTANT)
-        print("\n" + "="*80)
-        print("🔍 DETECTING JOB CARDS\n")
-
-        selectors = [
-            "li.jobs-search-results__list-item",
-            ".job-card-container",
-            ".scaffold-layout__list-item",
-            "li"
-        ]
-
-        for sel in selectors:
-            elements = page.query_selector_all(sel)
-            print(f"{sel} → {len(elements)} elements")
-
-        # 🔹 Print real job samples
-        print("\n" + "="*80)
-        print("🧪 JOB SAMPLES\n")
-
-        cards = page.query_selector_all("li")
-
-        count = 0
-        for card in cards:
-            try:
-                text = card.inner_text()
-
-                if "engineer" in text.lower():
-                    print(text[:300])
-                    print("-"*40)
-                    count += 1
-
-                    if count >= 5:
-                        break
-
-            except:
-                pass
+        print("\n✅ DEBUG COMPLETE")
 
 
 if __name__ == "__main__":
-    analyze_real_search_ui()
+    run_debug()
